@@ -7,9 +7,9 @@ Gem::Specification.new do |spec|
   spec.version       = "0.0.1"
   spec.authors       = ["Akinori Machino"]
   spec.email         = ["akinori.machino@icloud.com"]
-  spec.description   = %q{Output plugin to format fields and re-emit them.}
+  spec.description   = %q{Output plugin to format fields of records and re-emit them.}
   spec.summary       = %q{Output plugin to format fields and re-emit them.}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/mach/fluent-plugin-format"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
