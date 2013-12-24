@@ -1,6 +1,7 @@
 # Fluent::Plugin::Format
 
 Output plugin to format fields of records.
+
 You can add or change fields using existing values.
 
 ## Installation
@@ -23,25 +24,27 @@ Or install it yourself as:
         type format
         tag new_tag
         key1 %{key1} changed!
-        new_key1 key1 -> %{key1}
-        new_key2 key1 -> %{key1}, key2 -> %{key2}
+        new_key1 key1 is %{key1}.
+        new_key2 key1 is %{key1}, key2 is %{key2}.
     </match>
 
-Pass
+Pass this record:
 
     {
         "key1": "val1",
         "key2": "val2"
     }
 
-Then you get
+Then you get:
 
     {
         "key1": "val1 changed!",
         "key2": "val2",
-        "new_key1": "key1 -> val1",
-        "new_key2": "key1 -> val1, key2 -> val2"
+        "new_key1": "key1 is val1.",
+        "new_key2": "key1 is val1, key2 is val2."
     }
+
+### include_original_fields
 
 You can set `include_original_fields false` to exclude original fields.
 
@@ -52,14 +55,14 @@ You can set `include_original_fields false` to exclude original fields.
         html <h1>%{title}</h1><div><%{content}/div>
     </match>
 
-Pass
+Pass this record:
 
     {
         "title": "Fluentd: Open Source Log Management",
         "content": "Fluentd is an open-source tool to collect events and logs. 150+ plugins instantly enables you to store the massive data for Log Search, Big Data Analytics, and Archiving (MongoDB, S3, Hadoop)."
     }
 
-Then you get
+Then you get:
 
     {
         "html": "<h1>Fluentd: Open Source Log Management</h1><div>Fluentd is an open-source tool to collect events and logs. 150+ plugins instantly enables you to store the massive data for Log Search, Big Data Analytics, and Archiving (MongoDB, S3, Hadoop).</div>"
