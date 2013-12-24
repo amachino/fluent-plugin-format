@@ -14,9 +14,9 @@ class FormatOutputTest < Test::Unit::TestCase
     d1 = create_driver %[
       type format
       tag formatted
-      include_original_fields false
-      field1 field1 is %{key1}.
-      field2 field2 is %{key2}.
+      key1 %{key1} changed!
+      new_key1 key1 -> %{key1}
+      new_key2 key1 -> %{key1}, key2 -> %{key2}
     ]
 
     d1.run do
@@ -24,12 +24,27 @@ class FormatOutputTest < Test::Unit::TestCase
       d1.emit({'key1' => 'val1'})
     end
 
+    assert_equal [
+      {
+        'key1' => 'val1 changed!',
+        'key2' => 'val2',
+        'new_key1' => 'key1 -> val1',
+        'new_key2' => 'key1 -> val1, key2 -> val2'
+      },
+      {
+        'key1' => 'val1 changed!',
+        'new_key1' => 'key1 -> val1',
+        'new_key2' => 'key1 -> val1, key2 -> '
+      }
+    ], d1.records
+
     d2 = create_driver %[
       type format
       tag formatted
       include_original_fields true
-      field1 field1 is %{key1}.
-      field2 field2 is %{key2}.
+      key1 %{key1} changed!
+      new_key1 key1 -> %{key1}
+      new_key2 key1 -> %{key1}, key2 -> %{key2}
     ]
 
     d2.run do
@@ -37,11 +52,27 @@ class FormatOutputTest < Test::Unit::TestCase
       d2.emit({'key1' => 'val1'})
     end
 
+    assert_equal [
+      {
+        'key1' => 'val1 changed!',
+        'key2' => 'val2',
+        'new_key1' => 'key1 -> val1',
+        'new_key2' => 'key1 -> val1, key2 -> val2'
+      },
+      {
+        'key1' => 'val1 changed!',
+        'new_key1' => 'key1 -> val1',
+        'new_key2' => 'key1 -> val1, key2 -> '
+      }
+    ], d2.records
+
     d3 = create_driver %[
       type format
       tag formatted
-      field1 field1 is %{key1}.
-      field2 field2 is %{key2}.
+      include_original_fields false
+      key1 %{key1} changed!
+      new_key1 key1 -> %{key1}
+      new_key2 key1 -> %{key1}, key2 -> %{key2}
     ]
 
     d3.run do
@@ -49,17 +80,17 @@ class FormatOutputTest < Test::Unit::TestCase
       d3.emit({'key1' => 'val1'})
     end
 
-    assert_equal d1.records, [
-      {'field1' => 'field1 is val1.', 'field2' => 'field2 is val2.'},
-      {'field1' => 'field1 is val1.', 'field2' => 'field2 is .'}
-    ]
-    assert_equal d2.records, [
-      {'key1' => 'val1', 'key2' => 'val2', 'field1' => 'field1 is val1.', 'field2' => 'field2 is val2.'},
-      {'key1' => 'val1', 'field1' => 'field1 is val1.', 'field2' => 'field2 is .'}
-    ]
-    assert_equal d3.records, [
-      {'key1' => 'val1', 'key2' => 'val2', 'field1' => 'field1 is val1.', 'field2' => 'field2 is val2.'},
-      {'key1' => 'val1', 'field1' => 'field1 is val1.', 'field2' => 'field2 is .'}
-    ]
+    assert_equal [
+      {
+        'key1' => 'val1 changed!',
+        'new_key1' => 'key1 -> val1',
+        'new_key2' => 'key1 -> val1, key2 -> val2'
+      },
+      {
+        'key1' => 'val1 changed!',
+        'new_key1' => 'key1 -> val1',
+        'new_key2' => 'key1 -> val1, key2 -> '
+      }
+    ], d3.records
   end
 end

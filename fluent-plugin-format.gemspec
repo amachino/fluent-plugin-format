@@ -7,8 +7,8 @@ Gem::Specification.new do |spec|
   spec.version       = "0.0.1"
   spec.authors       = ["Akinori Machino"]
   spec.email         = ["akinori.machino@icloud.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{Output plugin to format fields and re-emit them.}
+  spec.summary       = %q{Output plugin to format fields and re-emit them.}
   spec.homepage      = ""
   spec.license       = "MIT"
 

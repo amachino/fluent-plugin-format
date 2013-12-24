@@ -36,7 +36,7 @@ module Fluent
       end
 
       @fields.each do |k, v|
-        result[k] = v.gsub(/%{(.+)?}/).each { record[$1] }
+        result[k] = v.gsub(/%{(.+?)}/).each { record[$1] }
       end
 
       return result
