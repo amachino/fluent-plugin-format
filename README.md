@@ -2,19 +2,9 @@
 
 Output plugin to format fields of records.
 
-You can add or change fields using existing values.
+You can add or change fields using existing values and re-emit them.
 
 ## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'fluent-plugin-format'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
 
     $ gem install fluent-plugin-format
 
@@ -22,7 +12,7 @@ Or install it yourself as:
 
     <match input.tag>
         type format
-        tag output.tab
+        tag output.tag
         key1 Hi, I'm %{key1}!
         new_key1 key1 is %{key1}.
         new_key2 key1 is %{key1}, key2 is %{key2}.
@@ -46,7 +36,7 @@ Then you get:
 
 ### include_original_fields
 
-You can set `include_original_fields false` to exclude original fields.
+You can set `include_original_fields false` to exclude original fields (defalut `true`).
 
     <match input.tag>
         type format
