@@ -1,4 +1,4 @@
-# Fluent::Plugin::Format
+# Fluent::Plugin::Format, a plugin for [Fluentd](http://fluentd.org)
 
 Output plugin to format fields of records.
 
