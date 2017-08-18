@@ -2,6 +2,11 @@ module Fluent
   class FormatOutput < Output
     Fluent::Plugin.register_output('format', self)
 
+    # Define `router` method of v0.12 to support v0.10 or earlier
+    unless method_defined?(:router)
+      define_method("router") { Fluent::Engine }
+    end
+
     config_param :tag, :string
     config_param :include_original_fields, :bool, :default => true
 
@@ -20,7 +25,7 @@ module Fluent
 
     def emit(tag, es, chain)
       es.each do |time, record|
-        Engine.emit(@tag, time, format_record(record))
+        router.emit(@tag, time, format_record(record))
       end
 
       chain.next
