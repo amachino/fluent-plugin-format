@@ -12,13 +12,17 @@ class FormatOutputTest < Test::Unit::TestCase
     Fluent::Test::Driver::Output.new(Fluent::Plugin::FormatOutput).configure(conf)
   end
 
-  def test_format
+  data('non-buffered' => false,
+       'buffered'     => true)
+  def test_format(data)
+    buffered = data
     d1 = create_driver %[
       type format
       tag formatted
       key1 %{key1} changed!
       new_key1 key1 -> %{key1}
       new_key2 key1 -> %{key1}, key2 -> %{key2}
+      buffered #{buffered}
     ]
 
     d1.run(default_tag: 'test') do
@@ -47,6 +51,7 @@ class FormatOutputTest < Test::Unit::TestCase
       key1 %{key1} changed!
       new_key1 key1 -> %{key1}
       new_key2 key1 -> %{key1}, key2 -> %{key2}
+      buffered #{buffered}
     ]
 
     d2.run(default_tag: 'test') do
@@ -75,6 +80,7 @@ class FormatOutputTest < Test::Unit::TestCase
       key1 %{key1} changed!
       new_key1 key1 -> %{key1}
       new_key2 key1 -> %{key1}, key2 -> %{key2}
+      buffered #{buffered}
     ]
 
     d3.run(default_tag: 'test') do
